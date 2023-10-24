@@ -1,0 +1,30 @@
+
+.navBox {
+    background-color: #222;
+}
+
+.navBrand {
+    display: flex;
+}
+
+.navBrand h5 {
+    color: #fff;
+    align-self: center;
+    margin-left: 1em;
+}
+
+.navBrand h5:hover {
+    color: #aaa;
+}
+
+.navBrandIcon {
+    border-radius: 2em;
+    background-color: #000;
+    padding: 0.5em;
+    transition: 0.3s;
+}
+
+.navBrandIcon:hover {
+    transition: 0.3s;
+    padding: 0.3em;
+}

@@ -1,8 +1,10 @@
+import HomePage from "./components/HomePage";
+import "./styles/global.css";
 
 export default function Home() {
   return (
     <main>
-      hola
+      <HomePage />
     </main>
-  )
+  );
 }

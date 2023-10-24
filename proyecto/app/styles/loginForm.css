@@ -1,0 +1,14 @@
+
+.loginFormBox {
+    display: grid;
+    width: 30vw;
+    max-height: 50vh;
+    margin: 10% auto;
+    gap: 1em;
+}
+
+.loginFormBox h5 {
+    color: #fff;
+    text-align: center;
+    font-size: 2em;
+}
