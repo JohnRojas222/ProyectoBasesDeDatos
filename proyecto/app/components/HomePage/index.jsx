@@ -1,12 +1,13 @@
-import LoginForm from "../LoginForm";
 import TNav from "../TNav";
-import "../../styles/global.css"
+import Login from "../Login";
+import "../../styles/global.css";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 export default function HomePage() {
     return (
         <>
             <TNav/>
-            <LoginForm/>
+            <Login/>
         </>
     );
 }

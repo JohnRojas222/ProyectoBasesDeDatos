@@ -1,0 +1,18 @@
+
+.formBox {
+    display: grid;
+    width: 30vw;
+    max-height: 50vh;
+    margin: 2em 0 0 auto;
+    gap: 0.8em;
+}
+
+.formBox h5 {
+    color: #fff;
+    margin: 0;
+    text-align: center;
+}
+
+.formText {
+    color: #fff !important;
+}
