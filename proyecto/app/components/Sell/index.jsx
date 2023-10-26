@@ -26,7 +26,6 @@ const FAKE_LIST = [
 ]
 
 export default function Sell() {
-    
     const [productsToSell, setProductsToSell] = useState([]);
     const [showModal, setShowModal] = useState(false);
 

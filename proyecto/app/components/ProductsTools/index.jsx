@@ -7,7 +7,7 @@ export default function ProductsTools({handleShowAdd, handleShowDelete}) {
             <Button variant="secondary" onClick={handleShowDelete}> Eliminar </Button>
             <Button onClick={handleShowAdd}> Añadir </Button>
             <InputGroup>
-                <Form.Control name="search" type="search" placeholder="Buscar" />
+                <Form.Control name="search" type="search" placeholder="Product EAN" />
                 <Button> Buscar </Button>
             </InputGroup>
             <InputGroup>
