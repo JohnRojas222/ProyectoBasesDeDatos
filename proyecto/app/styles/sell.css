@@ -1,0 +1,25 @@
+
+.sellBox {
+    height: 86vh;
+    display: grid;
+    grid-template-columns: 50% 50%;
+    grid-template-rows: 20% 80%;
+    align-items: center;
+    justify-items: center;
+}
+
+.sellBox form {
+    grid-column: 1 / 2;
+    grid-row: 1 / 3;
+}
+
+.sellBox .sellToolsBox {
+    grid-column: 2 / 3;
+    grid-row: 1 / 2;
+}
+
+.sellBox .tableBox {
+    grid-column: 2 / 3;
+    grid-row: 2 / 3;
+    align-self: start;
+}

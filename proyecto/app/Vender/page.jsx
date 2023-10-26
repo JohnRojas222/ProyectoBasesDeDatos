@@ -1,42 +1,16 @@
-import TNav from "../components/TNav";
-import TTable from "../components/TTable";
-import { Container } from "react-bootstrap";
+"use client";
+import TNav from '../components/TNav';
+import Sell from '../components/Sell';
+import { Toaster } from 'sonner';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import '../styles/venta.css';
-import Sell from "../components/Sell";
-
-const FAKE_LIST = [
-    {
-        id: 0,
-        producto: "Arroz",
-        precio: 5,
-    },
-    {
-        id: 1,
-        producto: "Frijoles",
-        precio: 7,
-    },
-    {
-        id: 2,
-        producto: "Aceite",
-        precio: 3,
-    },
-    {
-        id: 3,
-        producto: "Fresco",
-        precio: 5,
-    },
-]
-
+import '../styles/global.css';
 
 export default function Page() {
     return (
         <>
-            <TNav />
-            <Container className="ventaBox">
-                <TTable list={FAKE_LIST} maxWidth="50vw" maxHeight="75vh" title="Productos"/>
-                <Sell list={FAKE_LIST} />
-            </Container>
+            <TNav/>
+            <Sell/>
+            <Toaster richColors closeButton/>
         </>
     );
 }

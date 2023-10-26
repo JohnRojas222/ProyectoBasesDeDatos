@@ -14,7 +14,7 @@ export default function TModal({ children, modalTitle = "Title", handleSubmit, h
                         {children}
                     </Container>
                     <Button variant="secondary" onClick={handleShow}> Cancelar </Button>
-                    <Button type="submit" className="ms-3"> Enviar </Button>
+                    <Button type="submit" className="ms-3"> Confirmar </Button>
                 </Form>
             </Modal.Body>
         </Modal>

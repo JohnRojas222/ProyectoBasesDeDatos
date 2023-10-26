@@ -19,7 +19,7 @@ export default function LoginForm({ handleSubmit }) {
                 <Form.Control name="id" placeholder='Usuario' />
             </FloatingLabel>
             <FloatingLabel controlId="constraseña" label="Contraseña">
-                <Form.Control name="password" placeholder='Contraseña' />
+                <Form.Control type="password" name="password" placeholder='Contraseña' />
             </FloatingLabel>
             <Button type="submit"> Iniciar Sesión </Button>
         </Form>
