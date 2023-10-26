@@ -1,0 +1,22 @@
+
+.productsList {
+    height: 86vh;
+    display: grid;
+    grid-template-columns: 50% 50%;
+    justify-items: center;
+    align-items: start;
+    margin: 2em 0;
+} 
+
+.solidProductsList, .liquidProductsList  {
+    color: #fff;
+    text-align: center;
+}
+
+.solidProductsList form, .liquidProductsList form {
+    margin-bottom: 1em;
+}
+
+.solidProductsList h5, .liquidProductsList h5 {
+    margin-bottom: 1em;
+}

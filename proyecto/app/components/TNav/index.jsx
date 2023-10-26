@@ -1,10 +1,23 @@
 "use client";
 import Image from 'next/image';
-import { Nav, Navbar, Container } from 'react-bootstrap';
-import '../../styles/nav.css';
+import { Nav, Navbar, Container, Dropdown } from 'react-bootstrap';
+import { useState } from 'react';
+import { useGetCurrentUser } from '@/app/hooks/useGetCurrentUser';
+import { useRouter } from 'next/navigation';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import '../../styles/nav.css';
 
 export default function TNav({ }) {
+    const router = useRouter();
+    const currentUser = useGetCurrentUser();
+    const [showDropDown, setShowDropDown] = useState(true);
+
+    const handleCloseSession = () => {
+        localStorage.clear();
+        setShowDropDown(false);
+        router.push("/");
+    }
+
     return (
         <Nav className="navBox">
             <Navbar>
@@ -20,6 +33,23 @@ export default function TNav({ }) {
                         />
                         <h5>El Baratico</h5>
                     </Navbar.Brand>
+                    {currentUser && Object.keys(currentUser).length > 0 && showDropDown && (
+                        <Dropdown>
+                            <Dropdown.Toggle variant="secondary">
+                                <Image
+                                    src="/images/userIcon.png"
+                                    width={30}
+                                    height={30}
+                                    alt="UserLogo"
+                                    style={{ marginRight: "0.5em" }}
+                                />
+                                {currentUser.nombre}
+                            </Dropdown.Toggle>
+                            <Dropdown.Menu>
+                                <Dropdown.Item onClick={handleCloseSession}>Cerrar Sesión</Dropdown.Item>
+                            </Dropdown.Menu>
+                        </Dropdown>
+                    )}
                 </Container>
             </Navbar>
         </Nav>

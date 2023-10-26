@@ -11,7 +11,13 @@ export default function SellForm({ list, handleSubmit, handleSellProducts }) {
 
     const handleOnSubmit = (e) => {
         if (checkFields(e)) {
-            handleSubmit(getFormData(e));
+            const data = getFormData(e);
+            if (data.cantidad > 0) {
+                handleSubmit(data);
+            }
+            else {
+                toast("On no!", {description:"Por favor, ingrese una cantidad mayor a 0."});
+            }
         }
     }
 

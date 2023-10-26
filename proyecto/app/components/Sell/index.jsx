@@ -57,10 +57,6 @@ export default function Sell() {
         setProductsToSell(productsToSell.filter((p) => p.id != productId));
     }
 
-    const getTotalPrice = () => {
-        return productsToSell.reduce((acc, p) => acc + p.precio, 0);
-    }
-
     return (
         <div className="sellBox">
             <SellForm list={FAKE_LIST} handleSubmit={handleOnAddProduct} handleSellProducts={handleOnShow} />

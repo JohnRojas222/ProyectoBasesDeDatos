@@ -1,10 +1,12 @@
 
 .navBox {
     background-color: #222;
+    display: grid;
 }
 
 .navBrand {
     display: flex;
+    justify-self: start !important;
 }
 
 .navBrand h5 {
@@ -27,4 +29,8 @@
 .navBrandIcon:hover {
     transition: 0.3s;
     padding: 0.3em;
+}
+
+.dropdown {
+    justify-self: end;
 }

@@ -47,7 +47,13 @@ export default function Login () {
     } 
 
     const pushPageByRol = (rol) => {
-        if (rol == "Cajero") router.push("/Vender");
+        const roles = { 
+            Cajero: "/Vender",
+            Gerente: "/Gerente",
+            GerenteGeneral: "/GerenteGeneral",
+            Sistemas: "/Sistemas",
+        }
+        router.push(roles[rol]);
     }
     
     return (

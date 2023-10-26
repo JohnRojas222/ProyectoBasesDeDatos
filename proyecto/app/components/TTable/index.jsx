@@ -5,10 +5,10 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import '../../styles/table.css';
 import "../../styles/global.css";
 
-export default function TTable({ list=[], maxWidth="100%", maxHeight="80vh", margin="0"}) {
+export default function TTable({ list=[], maxWidth="100%", maxHeight="80vh"}) {
     const columns = list.length > 0 ? Object.keys(list[0]) : [];
     return (
-        <div className="tableBox" style={{maxWidth: maxWidth, maxHeight: maxHeight, margin: margin}}>
+        <div className="tableBox" style={{maxWidth: maxWidth, maxHeight: maxHeight}}>
             <Table>
                 <thead className="tableHead">
                     <tr>
