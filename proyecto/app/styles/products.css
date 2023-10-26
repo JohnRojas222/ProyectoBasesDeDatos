@@ -2,21 +2,28 @@
 .productsList {
     height: 75vh;
     display: grid;
-    grid-template-columns: 50% 50%;
-    justify-items: center;
-    align-items: start;
-    margin: 2em 2em;
 } 
 
-.solidProductsList, .liquidProductsList  {
+.productsList .carousel {
+    padding: 0 13em;
+}
+
+.solidProductsList {
+    margin: 2em 0;
     color: #fff;
     text-align: center;
 }
 
-.solidProductsList form, .liquidProductsList form {
-    margin-bottom: 1em;
+.solidProductsList h5 {
+    margin: 1em 0;
 }
 
-.solidProductsList h5, .liquidProductsList h5 {
-    margin-bottom: 1em;
+.liquidProductsList {
+    margin: 2em 0;
+    color: #fff;
+    text-align: center;
+}
+
+.liquidProductsList h5 {
+    margin: 1em 0;
 }

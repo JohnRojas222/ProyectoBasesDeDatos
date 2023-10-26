@@ -2,8 +2,8 @@ import { useState } from "react";
 import ProductsTools from "../ProductsTools";
 import TTable from "../TTable";
 import AddForm from "../AddForm";
-import DeleteForm from "../DeleteForm";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 const FAKE_LIST = [
     {
@@ -33,23 +33,18 @@ const FAKE_LIST = [
 ]
 
 export default function SolidProductsList() {
+    const router = useRouter();
     const [solidList, setSolidList] = useState(FAKE_LIST);
     const [showAddModal, setShowAddModal] = useState(false);
-    const [showDeleteModal, setShowDeleteModal] = useState(false);
 
     const handleOnShowAdd = () => {
         setShowAddModal(!showAddModal);
-    }
-
-    const handleOnShowDelete = () => {
-        setShowDeleteModal(!showDeleteModal);
     }
 
     const handleOnDelete = (ean) => {
         const products = solidList.filter((p) => p.EAN != ean);
         if (products.length != solidList.length) {
             setSolidList(products);
-            handleOnShowDelete();
             toast.success("Exito!", {description:"Producto eliminado correctamente!"});
         }
         else {
@@ -63,17 +58,32 @@ export default function SolidProductsList() {
         toast.success("Exito!",{description:"Producto añadido correctamente!"});
     }
 
+    const handleOnSearch = (busqueda) => {
+        setSolidList(solidList.filter((p) => p.EAN == busqueda));
+    }
+
+    const handleOnCancelSearch = () => {
+        setSolidList(FAKE_LIST);
+    }
+
+    const handleOnEdit = (ean) => {
+        router.push("/" + ean);
+    }
+
     return (
         <div className='solidProductsList'>
-            <ProductsTools handleShowAdd={handleOnShowAdd} handleShowDelete={handleOnShowDelete}/>
+            <ProductsTools
+                handleShowAdd={handleOnShowAdd}
+                handleOnDelete={handleOnDelete}
+                handleOnSearch={handleOnSearch}
+                handleOnCancelSearch={handleOnCancelSearch}
+                handleOnEdit={handleOnEdit}
+            />
             {showAddModal && (
                 <AddForm handleShow={handleOnShowAdd} handleSubmit={handleOnAdd}/>
             )}
-            {showDeleteModal && (
-                <DeleteForm handleShow={handleOnShowDelete} handleSubmit={handleOnDelete}/>
-            )}
             <h5> Solidos </h5>
-            <TTable list={solidList} />
+            <TTable list={solidList} maxHeight="54vh" />
         </div>
     );
 }

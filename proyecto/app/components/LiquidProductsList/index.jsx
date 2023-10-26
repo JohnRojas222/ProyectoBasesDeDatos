@@ -3,8 +3,8 @@ import { useState } from "react";
 import AddForm from "../AddForm";
 import ProductsTools from "../ProductsTools";
 import TTable from "../TTable";
-import DeleteForm from "../DeleteForm";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 const FAKE_LIQUID_LIST = [
     {
@@ -32,47 +32,57 @@ const FAKE_LIQUID_LIST = [
 
 
 export default function LiquidProductsList() {
+    const router = useRouter();
     const [liquidList, setLiquidList] = useState(FAKE_LIQUID_LIST);
     const [showAddModal, setShowAddModal] = useState(false);
-    const [showDeleteModal, setShowDeleteModal] = useState(false);
 
     const handleOnShowAdd = () => {
         setShowAddModal(!showAddModal);
-    }
-
-    const handleOnShowDelete = () => {
-        setShowDeleteModal(!showDeleteModal);
     }
 
     const handleOnDelete = (ean) => {
         const products = liquidList.filter((p) => p.EAN != ean);
         if (products.length != liquidList.length) {
             setLiquidList(products);
-            handleOnShowDelete();
-            toast.success("Exito!", {description:"Producto eliminado correctamente!"});
+            toast.success("Exito!", { description: "Producto eliminado correctamente!" });
         }
         else {
-            toast.error("Error!", {description:"Producto no encontrado!"});
+            toast.error("Error!", { description: "Producto no encontrado!" });
         }
     }
 
     const handleOnAdd = (product) => {
         setLiquidList([...liquidList, product]);
         handleOnShowAdd();
-        toast.success("Exito!",{description:"Producto añadido correctamente!"});
+        toast.success("Exito!", { description: "Producto añadido correctamente!" });
+    }
+
+    const handleOnSearch = (busqueda) => {
+        setLiquidList(liquidList.filter((p) => p.EAN == busqueda));
+    }
+
+    const handleOnCancelSearch = () => {
+        setLiquidList(FAKE_LIQUID_LIST);
+    }
+
+    const handleOnEdit = (ean) => {
+        router.push("/" + ean);
     }
 
     return (
         <div className='liquidProductsList'>
-            <ProductsTools handleShowAdd={handleOnShowAdd} handleShowDelete={handleOnShowDelete}/>
+            <ProductsTools
+                handleShowAdd={handleOnShowAdd}
+                handleOnDelete={handleOnDelete}
+                handleOnSearch={handleOnSearch}
+                handleOnCancelSearch={handleOnCancelSearch}
+                handleOnEdit={handleOnEdit}
+            />
             {showAddModal && (
-                <AddForm handleShow={handleOnShowAdd} handleSubmit={handleOnAdd} type="Liquid"/>
-            )}
-            {showDeleteModal && (
-                <DeleteForm handleShow={handleOnShowDelete} handleSubmit={handleOnDelete}/>
+                <AddForm handleShow={handleOnShowAdd} handleSubmit={handleOnAdd} type="Liquid" />
             )}
             <h5> Liquidos </h5>
-            <TTable list={liquidList} />
+            <TTable list={liquidList} maxHeight="54vh" />
         </div>
     );
 }
