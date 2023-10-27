@@ -46,6 +46,9 @@ export default function TNav({ }) {
                                 {currentUser.nombre}
                             </Dropdown.Toggle>
                             <Dropdown.Menu>
+                                {currentUser.rol == "Sistemas" && (
+                                    <Dropdown.Item onClick={() => router.push("/Procesos")}>Procesos</Dropdown.Item>
+                                )}
                                 <Dropdown.Item onClick={handleCloseSession}>Cerrar Sesión</Dropdown.Item>
                             </Dropdown.Menu>
                         </Dropdown>

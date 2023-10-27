@@ -1,9 +1,9 @@
 "use client";
-import { Button, FloatingLabel, Form } from "react-bootstrap";
 import TNav from "../components/TNav";
+import { Button, FloatingLabel, Form } from "react-bootstrap";
+import { useGetCurrentUser } from "../hooks/useGetCurrentUser";
 import "../styles/global.css";
 import "../styles/editForm.css";
-import { useGetCurrentUser } from "../hooks/useGetCurrentUser";
 
 const FAKE_LIST = [
     {
