@@ -3,6 +3,8 @@ import ProductsByAreaTools from "../ProductsByAreaTools";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useGetCurrentUser } from "@/app/hooks/useGetCurrentUser";
+import "../../styles/productsByArea.css";
+import { toast } from "sonner";
 
 const FAKE_LIST = [
     {
@@ -38,6 +40,7 @@ const FAKE_LIQUID_LIST = [
         descripcion: "Arroz",
         pesoEnKilos: 100,
         precioPorKilogramo: 3000,
+        area: "Frescos"
     },
     {
         PLU: 2222,
@@ -45,6 +48,7 @@ const FAKE_LIQUID_LIST = [
         descripcion: "Frijoles",
         pesoEnKilos: 150,
         precioPorKilogramo: 4000,
+        area: "Frescos"
     },
     {
         PLU: 3333,
@@ -52,6 +56,7 @@ const FAKE_LIQUID_LIST = [
         descripcion: "Aceite",
         pesoEnKilos: 175,
         precioPorKilogramo: 5000,
+        area: "Frescos"
     },
 ]
 
@@ -70,20 +75,36 @@ export default function ProductsByArea() {
         }
     }, [currentUser]);
 
-    const handleOnSearch = (busqueda) => {
-        setSolidList(solidList.filter((p) => p.EAN == busqueda));
+    const handleOnSearch = (data) => {
+        let newList = [];
+        if (data.filtro == "EAN") {
+            newList = [...FAKE_LIST.filter((p) => p.EAN == data.busqueda), 
+                ...FAKE_LIQUID_LIST.filter((p) => p.EAN == data.busqueda)];
+        }
+        else {
+            newList = [...FAKE_LIST.filter((p) => p.descripcion == data.busqueda), 
+                ...FAKE_LIQUID_LIST.filter((p) => p.descripcion == data.busqueda)];
+        }
+        setSolidList(newList);
     }
 
     const handleOnCancelSearch = () => {
-        setSolidList(FAKE_LIST);
+        setSolidList(FAKE_LIST.filter((p) => p.area == currentUser.area));
     }
 
     const handleOnEdit = (ean) => {
-        router.push("/" + ean);
+        const product = [...FAKE_LIST.filter((p) => p.EAN == ean),
+            ...FAKE_LIQUID_LIST.filter((p) => p.EAN == ean)][0];
+        if (product.area == currentUser.area) {
+            router.push("/" + ean);
+        }
+        else {
+            toast.error("Error!", {description:"No tiene permitido editar ese producto!"});
+        }
     }
 
     return (
-        <div className='solidProductsList'>
+        <div className='productsList'>
             <ProductsByAreaTools
                 handleOnSearch={handleOnSearch}
                 handleOnCancelSearch={handleOnCancelSearch}

@@ -3,6 +3,7 @@ import { Button, FloatingLabel, Form } from "react-bootstrap";
 import TNav from "../components/TNav";
 import "../styles/global.css";
 import "../styles/editForm.css";
+import { useGetCurrentUser } from "../hooks/useGetCurrentUser";
 
 const FAKE_LIST = [
     {
@@ -34,10 +35,11 @@ const FAKE_LIST = [
 const FAKE_LIQUID_LIST = [
     {
         PLU: 1111,
-        EAN: 543210987654321,
+        EAN: 883210987654321,
         descripcion: "Arroz",
         pesoEnKilos: 100,
         precioPorKilogramo: 3000,
+        area: "Frescos"
     },
     {
         PLU: 2222,
@@ -45,24 +47,27 @@ const FAKE_LIQUID_LIST = [
         descripcion: "Frijoles",
         pesoEnKilos: 150,
         precioPorKilogramo: 4000,
+        area: "Frescos"
     },
     {
         PLU: 3333,
-        EAN: 123456789012346,
+        EAN: 223456789012346,
         descripcion: "Aceite",
         pesoEnKilos: 175,
         precioPorKilogramo: 5000,
+        area: "Frescos"
     },
 ]
 
 export default function Page({ params }) {
+    const currentUser = useGetCurrentUser();
     const solidProduct = FAKE_LIST.find((p) => p.EAN == params.product);
     const liquidProduct = FAKE_LIQUID_LIST.find((p) => p.EAN == params.product);
 
-    if (solidProduct) {
+    if (solidProduct && currentUser && currentUser.rol != "Gerente") {
         return (
             <>
-                <TNav/>
+                <TNav />
                 <Form className="editFormBox">
                     <h5>{solidProduct.descripcion} ({solidProduct.EAN})</h5>
                     <FloatingLabel label="EAN" className="mb-3">
@@ -90,10 +95,10 @@ export default function Page({ params }) {
         );
     }
 
-    if (liquidProduct) {
+    if (liquidProduct && currentUser && currentUser.rol != "Gerente") {
         return (
             <>
-                <TNav/>
+                <TNav />
                 <Form className="editFormBox">
                     <h5>{liquidProduct.descripcion} ({liquidProduct.EAN})</h5>
                     <FloatingLabel label="PLU" className="mb-3">
@@ -119,10 +124,54 @@ export default function Page({ params }) {
         );
     }
 
+    if (solidProduct && currentUser && currentUser.rol == "Gerente") {
+        return (
+            <>
+                <TNav />
+                <Form className="editFormBox">
+                    <h5>{solidProduct.descripcion} ({solidProduct.EAN})</h5>
+                    <FloatingLabel label="EAN" className="mb-3">
+                        <Form.Control defaultValue={solidProduct.EAN} disabled readOnly />
+                    </FloatingLabel>
+                    <FloatingLabel label="Descripción" className="mb-3">
+                        <Form.Control defaultValue={solidProduct.descripcion} />
+                    </FloatingLabel>
+                    <FloatingLabel label="Cantidad" className="mb-3">
+                        <Form.Control defaultValue={solidProduct.cantidad} />
+                    </FloatingLabel>
+                    <Button variant="secondary" onClick={() => window.history.back()}> Volver </Button>
+                    <Button className="ms-3"> Editar </Button>
+                </Form>
+            </>
+        );
+    }
+
+    if (liquidProduct && currentUser && currentUser.rol == "Gerente") {
+        return (
+            <>
+                <TNav />
+                <Form className="editFormBox">
+                    <h5>{liquidProduct.descripcion} ({liquidProduct.EAN})</h5>
+                    <FloatingLabel label="PLU" className="mb-3">
+                        <Form.Control defaultValue={liquidProduct.PLU} disabled readOnly />
+                    </FloatingLabel>
+                    <FloatingLabel label="EAN" className="mb-3">
+                        <Form.Control defaultValue={liquidProduct.EAN} disabled readOnly />
+                    </FloatingLabel>
+                    <FloatingLabel label="Descripción" className="mb-3">
+                        <Form.Control defaultValue={liquidProduct.descripcion} />
+                    </FloatingLabel>
+                    <Form.Control className="d-none" defaultValue={"Liquidos"} />
+                    <Button variant="secondary" onClick={() => window.history.back()}> Volver </Button>
+                    <Button className="ms-3"> Editar </Button>
+                </Form>
+            </>
+        );
+    }
+
     return (
         <>
-            <TNav/>
-            Producto no encontrado
+            Error
         </>
     );
 }
