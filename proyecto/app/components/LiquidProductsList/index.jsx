@@ -30,7 +30,6 @@ const FAKE_LIQUID_LIST = [
     },
 ]
 
-
 export default function LiquidProductsList() {
     const router = useRouter();
     const [liquidList, setLiquidList] = useState(FAKE_LIQUID_LIST);
