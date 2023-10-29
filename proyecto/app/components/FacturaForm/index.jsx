@@ -25,12 +25,20 @@ export default function FacturaForm({ productsToSell, handleSubmit }) {
                 </Col>
             </Form.Group>
             {currentUser && (
-                <Form.Group as={Row} className="mb-3">
-                    <Form.Label column sm="2"> Cajero </Form.Label>
-                    <Col sm="10">
-                        <Form.Control value={currentUser.id} readOnly disabled className="mb-3" />
-                    </Col>
-                </Form.Group>
+                <>
+                    <Form.Group as={Row} className="mb-3">
+                        <Form.Label column sm="2"> Cajero </Form.Label>
+                        <Col sm="10">
+                            <Form.Control value={currentUser.id} readOnly disabled className="mb-3" />
+                        </Col>
+                    </Form.Group>
+                    <Form.Group as={Row} className="mb-3">
+                        <Form.Label column sm="2"> Caja </Form.Label>
+                        <Col sm="10">
+                            <Form.Control value={currentUser.caja} readOnly disabled className="mb-3" />
+                        </Col>
+                    </Form.Group>
+                </>
             )}
             <Form.Text className="text-justify">
                 <h5> Productos: </h5>

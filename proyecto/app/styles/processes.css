@@ -4,11 +4,13 @@
 }
 
 .processesTabs li button {
-    color: #fff !important;
+    color: #000 !important;
+    background-color: #fff;
 }
 
 .processesTabs li button:focus {
     color: #000 !important;
+    background-color: #ccc !important;
 }
 
 .processesTab {

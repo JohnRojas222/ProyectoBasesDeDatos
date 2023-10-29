@@ -1,8 +1,7 @@
 import LiquidProductsList from '../LiquidProductsList';
 import SolidProductsList from '../SolidProductsList';
-import "../../styles/products.css";
-import { Toaster } from 'sonner';
 import { Carousel } from 'react-bootstrap';
+import "../../styles/products.css";
 
 export default function Products() {
     return (

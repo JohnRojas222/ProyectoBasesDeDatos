@@ -78,6 +78,8 @@ export default function Sell() {
     const handleOnSubmit = (e) => {
         if (checkFields(e)) {
             handleOnShow();
+            setFormatedList([]);
+            setProductsToSell([]);
             toast.success("Exito!", {description: "Productos vendidos correctamente!"});
         }
     }
@@ -133,6 +135,7 @@ export default function Sell() {
         if (product) return product.cantidad;
         return 0;
     }
+
     return (
         <div className="sellBox">
             <SellForm list={FAKE_PRODUCTS_LIST} handleSubmit={handleOnAddProduct} handleSellProducts={handleOnShow} />
