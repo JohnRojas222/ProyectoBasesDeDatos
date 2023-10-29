@@ -1,0 +1,26 @@
+
+.processesTabs {
+    margin: 2em;
+}
+
+.processesTabs li button {
+    color: #fff !important;
+}
+
+.processesTabs li button:focus {
+    color: #000 !important;
+}
+
+.processesTab {
+    color: #fff;
+    text-align: center;
+    margin: 18vh auto;
+}
+
+.processesTab h5 {
+    margin: 2em 0;
+}
+
+.tabTables {
+    margin: 3em;
+}

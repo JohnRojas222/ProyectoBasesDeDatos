@@ -2,7 +2,7 @@
 .sellBox {
     height: 86vh;
     display: grid;
-    grid-template-columns: 50% 50%;
+    grid-template-columns: 40% 60%;
     grid-template-rows: 20% 80%;
     align-items: center;
     justify-items: center;

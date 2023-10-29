@@ -5,7 +5,7 @@ export default function SellTools({ handleOnDelete }) {
 
     const handleDelete = (e) => {
         if (checkFields(e)) {
-            handleOnDelete(e.target.producto.value);
+            handleOnDelete(e.target.EAN.value);
         }
     }
 
@@ -13,7 +13,7 @@ export default function SellTools({ handleOnDelete }) {
         <div className="sellToolsBox">
             <Form onSubmit={handleDelete}>
                 <InputGroup className="text-white">
-                    <Form.Control name="producto" placeholder="Id Producto"/>
+                    <Form.Control name="EAN" placeholder="EAN del Producto"/>
                     <Button type="submit"> Eliminar </Button>
                 </InputGroup>
             </Form>

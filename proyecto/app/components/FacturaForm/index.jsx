@@ -3,7 +3,7 @@ import { currentDate } from "@/app/functions/currentDate";
 import { currentHour } from "@/app/functions/currentHour";
 import { useGetCurrentUser } from "@/app/hooks/useGetCurrentUser";
 
-export default function FacturaForm({productsToSell}) {
+export default function FacturaForm({ productsToSell, handleSubmit }) {
     const currentUser = useGetCurrentUser();
 
     const getTotalPrice = () => {
@@ -11,7 +11,7 @@ export default function FacturaForm({productsToSell}) {
     }
 
     return (
-        <Form className="mb-3">
+        <div className="mb-3">
             <Form.Group as={Row} className="mb-3">
                 <Form.Label column sm="2"> Fecha </Form.Label>
                 <Col sm="10">
@@ -36,12 +36,12 @@ export default function FacturaForm({productsToSell}) {
                 <h5> Productos: </h5>
                 {productsToSell.map((p, index) => (
                     <>
-                        {index}. Producto: {p.producto}. Precio: ₡{p.precio}.
+                        {index + 1}. Producto: {p.descripcion}. Precio: ₡{p.precio}.
                         Cantidad: {p.cantidad}. SubTotal: ₡{p.precioTotal}. <br />
                     </>
                 ))}
                 Total: ₡{getTotalPrice()}.
             </Form.Text>
-        </Form>
+        </div>
     );
 }
