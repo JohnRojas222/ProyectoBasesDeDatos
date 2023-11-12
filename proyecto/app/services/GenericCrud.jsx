@@ -1,4 +1,5 @@
 import oracledb from 'oracledb';
+import { objectToString } from '../functions/objectToString';
 
 class GenericCrud {
     constructor(tableName) {
@@ -23,11 +24,12 @@ class GenericCrud {
         const connection = await this.openConnection();
         try {
             const columns = Object.keys(data).join(', ');
-            const values = Object.values(data);
-            const binds = values.map(() => '?').join(', ');
+            const values = Object.values(data).map(value => `'${value}'`).join(', ');
 
-            const sql = `INSERT INTO ${this.tableName} (${columns}) VALUES (${binds})`;
-            const result = await connection.execute(sql, values, { autoCommit: true });
+            const sql = `INSERT INTO ${this.tableName} (${columns}) VALUES (${values})`;
+            const result = await connection.execute(sql);
+            await connection.commit();
+
             return result;
         } finally {
             await connection.close();
@@ -48,11 +50,14 @@ class GenericCrud {
     async update(data, whereClause) {
         const connection = await this.openConnection();
         try {
-            const updates = Object.keys(data).map(key => `${key} = ?`).join(', ');
-            const values = Object.values(data);
+            const updates = objectToString(data);
+            //const updates = Object.keys(data).map(key => `${key} = ?`).join(', ');
+            //const values = Object.values(data);
 
             const sql = `UPDATE ${this.tableName} SET ${updates} WHERE ${whereClause}`;
-            const result = await connection.execute(sql, values, { autoCommit: true });
+            const result = await connection.execute(sql);
+            await connection.commit();
+
             return result;
         } finally {
             await connection.close();
@@ -63,7 +68,8 @@ class GenericCrud {
         const connection = await this.openConnection();
         try {
             const sql = `DELETE FROM ${this.tableName} WHERE ${whereClause}`;
-            const result = await connection.execute(sql, { autoCommit: true });
+            const result = await connection.execute(sql);
+            await connection.commit();
             return result;
         } finally {
             await connection.close();

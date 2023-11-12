@@ -5,14 +5,15 @@ class ProductosCrud extends GenericCrud {
         super("Productos");
     }
 
-    async create({ producto, ean, descripcion, precio, plu, peso }) {
+    async create({ plu, ean, descripcion, area, precio, peso, cantidad }) {
         return await super.create({
-            Producto: producto,
+            PLU: plu,
             EAN: ean,
             Descripcion: descripcion,
+            Area: area,
             Precio: precio,
-            PLU: plu,
-            Peso: peso
+            Peso: peso,
+            Cantidad: cantidad,
         });
     }
 
@@ -20,19 +21,20 @@ class ProductosCrud extends GenericCrud {
         return await super.read();
     }
 
-    async update(producto, { ean, descripcion, precio, plu, peso }) {
+    async update(ean, { descripcion, area, precio, peso, cantidad }) {
         const data = {};
-        if (ean) data.EAN = ean;
+        
         if (descripcion) data.Descripcion = descripcion;
+        if (area) data.Area = area;
         if (precio) data.Precio = precio;
-        if (plu) data.PLU = plu;
         if (peso) data.Peso = peso;
+        if (cantidad) data.Cantidad = cantidad;
 
-        return await super.update(data, `Producto = '${producto}'`);
+        return await super.update(data, `EAN = '${ean}'`);
     }
 
     async delete(producto) {
-        return await super.delete(`Producto = '${producto}'`);
+        return await super.delete(`EAN = '${producto}'`);
     }
 }
 
