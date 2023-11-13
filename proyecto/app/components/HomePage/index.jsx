@@ -2,25 +2,32 @@ import TNav from "../TNav";
 import Login from "../Login";
 import "../../styles/global.css";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import ProductosCrud from "@/app/services/ProductosCrud";
+//import CajeroCrud from "@/app/services/CajeroCrud";
 
-const productosCrud = new ProductosCrud();
+//const crud = new CajeroCrud();
 export default function HomePage() {
     
-    // productosCrud.create({plu:98754, ean:"9876543210123", descripcion:"Tomates", area:"A001", precio:5000, peso:5, cantidad:5}).then(productos => {
-    //     console.log(productos);
+    
+    // crud.read().then(elementos => {
+    //     console.log(elementos);
     // });
 
-    // productosCrud.update('1234567890123', {
-    //     precio: 150,
-    //     descripcion: 'Producto de prueba actualizado'
+    // crud.create({
+    //     usuario: 123456789, 
+    //     caja: 2,
+    // }).then(elementos => {
+    //     console.log(elementos);
     // });
 
-    productosCrud.delete('1234567890123');
+    // crud.update('123456789', {
+    //     caja: 5,
+    // });
 
-    productosCrud.read().then(productos => {
-        console.log(productos);
-    });
+    // crud.read().then(elementos => {
+    //     console.log(elementos);
+    // });
+
+    // productosCrud.delete('1234567890123');
 
     return (
         <>

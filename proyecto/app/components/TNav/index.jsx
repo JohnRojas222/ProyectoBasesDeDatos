@@ -18,6 +18,8 @@ export default function TNav({ }) {
         router.push("/");
     }
 
+    console.log(currentUser)
+
     return (
         <Nav className="navBox">
             <Navbar>
@@ -43,10 +45,10 @@ export default function TNav({ }) {
                                     alt="UserLogo"
                                     style={{ marginRight: "0.5em" }}
                                 />
-                                {currentUser.nombre}
+                                {currentUser.NOMBRE}
                             </Dropdown.Toggle>
                             <Dropdown.Menu>
-                                {currentUser.rol == "Sistemas" && (
+                                {currentUser.ROL == "U004" && (
                                     <Dropdown.Item onClick={() => router.push("/Procesos")}>Procesos</Dropdown.Item>
                                 )}
                                 <Dropdown.Item onClick={handleCloseSession}>Cerrar Sesión</Dropdown.Item>

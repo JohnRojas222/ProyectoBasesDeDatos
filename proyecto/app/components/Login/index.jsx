@@ -3,102 +3,47 @@ import LoginForm from "../LoginForm";
 import { useRouter } from "next/navigation";
 import { Toaster, toast } from "sonner";
 import { useSaveCurrentUser } from "./hooks/useSaveCurrentUser";
-
-const FAKE_LIST = [
-    {
-        id: 111,
-        nombre: "Dylan",
-        password: 111,
-        area: "Cajeros",
-        rol: "Cajero",
-    },
-    {
-        id: 21,
-        nombre: "Abarrotes",
-        password: 21,
-        area: "Abarrotes",
-        rol: "Gerente",
-    },
-    {
-        id: 22,
-        nombre: "Cuidado Personal",
-        password: 22,
-        area: "Cuidado Personal",
-        rol: "Gerente",
-    },
-    {
-        id: 23,
-        nombre: "Mercancías",
-        password: 23,
-        area: "Mercancías",
-        rol: "Gerente",
-    },
-    {
-        id: 24,
-        nombre: "Frescos",
-        password: 24,
-        area: "Frescos",
-        rol: "Gerente",
-    },
-    {
-        id: 333,
-        nombre: "Alberto",
-        password: 333,
-        area: "Gerencia General",
-        rol: "GerenteGeneral",
-    },
-    {
-        id: 444,
-        nombre: "John",
-        password: 444,
-        area: "Sistemas",
-        rol: "Sistemas",
-    },
-]
-
-const FAKE_BOXES_LIST = [
-    {
-        id: 111,
-        caja: 1,
-    },
-]
+import useGetData from "@/app/hooks/useGetData";
 
 export default function Login () {
     const router = useRouter();
     const [, setUser] = useSaveCurrentUser();
+    const users = useGetData("/api/users");
+    const boxes = useGetData("/api/boxes");
 
     const handledOnSubmit = (formData) => {
-        const user = FAKE_LIST.find((u) => u.id == formData.id);
-        if (user && user.password == formData.password) {
-            if (user.area == "Cajeros") {
-                setUser({...user, caja: getBox(user.id)});
+        const user = users.find((u) => u.CODIGO == formData.id);
+        if (user && user.PASSWORD == formData.password) {
+            if (user.AREA == "A001") {
+                setUser({...user, CAJA: getBox(user.CODIGO)});
             }
             else {
                 setUser(user);
             }
-            pushPageByRol(user.rol);
+            pushPageByRol(user.ROL);
         }
         else {
             toast.error("Error!", {description:"Usuario o Contraseña Incorrecto!"});
         }
     } 
 
-    const getBox = (id) => {
-        const user = FAKE_BOXES_LIST.find((p) => p.id == id);
-        if (user) return user.caja;
+    const getBox = (usuario) => {
+        const user = boxes.find((c) => c.USUARIO === usuario);
+        console.log(user);
+        if (user) return user.CAJA;
         return 0;
     }
 
     const pushPageByRol = (rol) => {
         const roles = { 
-            Cajero: "/Vender",
-            Gerente: "/Gerente",
-            GerenteGeneral: "/GerenteGeneral",
-            Sistemas: "/Sistemas",
+            U001: "/Vender",
+            U002: "/Gerente",
+            U003: "/GerenteGeneral",
+            U004: "/Sistemas",
         }
         router.push(roles[rol]);
     }
-    
+
     return (
         <>
             <LoginForm handleSubmit={handledOnSubmit}/>

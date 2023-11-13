@@ -41,11 +41,25 @@ class GenericCrud {
         try {
             const sql = `SELECT * FROM ${this.tableName} ${whereClause}`;
             const result = await connection.execute(sql);
-            return result.rows;
+    
+            // Obtener las columnas del resultado
+            const columns = result.metaData.map(column => column.name);
+    
+            // Construir un array de objetos JSON a partir de las filas
+            const rows = result.rows.map(row => {
+                const rowData = {};
+                row.forEach((value, index) => {
+                    rowData[columns[index]] = value;
+                });
+                return rowData;
+            });
+    
+            return rows;
         } finally {
             await connection.close();
         }
     }
+    
 
     async update(data, whereClause) {
         const connection = await this.openConnection();
