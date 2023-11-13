@@ -4,29 +4,7 @@ import { useState } from "react";
 import { Button, Form, InputGroup } from "react-bootstrap";
 import { toast } from "sonner";
 
-const FAKE_LIQUID_LIST = [
-    {
-        EAN: 4567891230123,
-        PLU: 1111,
-    },
-]
-
-const FAKE_SOLID_LIST = [
-    {
-        EAN: 1234567891230,
-        cantidad: 10,
-    },
-    {
-        EAN: 2345678912301,
-        cantidad: 20,
-    },
-    {
-        EAN: 3456789123012,
-        cantidad: 30,
-    },
-]
-
-export default function SellForm({ list, handleSubmit, handleSellProducts }) {
+export default function SellForm({ list = [], handleSubmit, handleSellProducts }) {
     const [searchValue, setSearchValue] = useState("");
     const [currentProduct, setCurrentProduct] = useState("ninguno");
 
@@ -62,29 +40,23 @@ export default function SellForm({ list, handleSubmit, handleSellProducts }) {
         }
     }
 
-    const getPLU = (ean) => {
-        return FAKE_LIQUID_LIST.find((p) => p.EAN == ean).PLU;
-    }
-
-    const getAmount = (ean) => {
-        const product = FAKE_SOLID_LIST.find((p) => p.EAN == ean);
-        if (product) return product.cantidad;
-        return 0;
-    }
-
     return (
         <Form style={{ width: "30vw" }} onSubmit={handleOnSubmit}>
             <h5 className="mb-3 text-white text-center"> Vender Productos </h5>
             <Form.Group className="text-white  mb-3">
                 <Form.Label> Producto a Vender </Form.Label>
                 <InputGroup className="text-white">
-                    <Form.Control name="EAN" placeholder="EAN del Producto" onChange={handleOnChangeSearch} />
+                    <Form.Control
+                        name="EAN"
+                        placeholder="EAN del Producto"
+                        onChange={handleOnChangeSearch}
+                        type="search"
+                    />
                     <Button onClick={handleOnSearch}> Buscar </Button>
                 </InputGroup>
                 <Form.Text className="text-white">
-                    Nombre: {currentProduct.descripcion}. Precio: ₡{currentProduct.precio}.
-                    {currentProduct.area == "frescos" ? " PLU: " + getPLU(currentProduct.EAN) + "." : ""}
-                    {currentProduct.area != "frescos" ? " Cantidad Disponible: " + getAmount(currentProduct.EAN) + "." : ""}
+                    Nombre: {currentProduct.DESCRIPCION}. Precio: ₡{currentProduct.PRECIO}. <br />
+                    Cantidad Disponible: {currentProduct.CANTIDAD}
                 </Form.Text>
             </Form.Group>
             <Form.Group className="mb-3 text-white">

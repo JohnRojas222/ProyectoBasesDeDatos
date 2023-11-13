@@ -1,50 +1,30 @@
-import { useState } from "react";
 import ProductsTools from "../ProductsTools";
 import TTable from "../TTable";
 import AddForm from "../AddForm";
+import useGetData from "@/app/hooks/useGetData";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import useCreateData from "@/app/hooks/useCreateData";
 
-const FAKE_LIST = [
-    {
-        EAN: 123456789012345,
-        descripcion: "Arroz",
-        pesoEnGramos: 100,
-        precioPorUnidad: 3000,
-        cantidad: 50,
-        area: "Abarrotes",
-    },
-    {
-        EAN: 987654321098765,
-        descripcion: "Frijoles",
-        pesoEnGramos: 150,
-        precioPorUnidad: 4000,
-        cantidad: 70,
-        area: "Cuidado Personal",
-    },
-    {
-        EAN: 543210987654321,
-        descripcion: "Aceite",
-        pesoEnGramos: 175,
-        precioPorUnidad: 5000,
-        cantidad: 20,
-        area: "Mercancías",
-    },
-]
-
-export default function SolidProductsList() {
+export default function ProductsList() {
     const router = useRouter();
-    const [solidList, setSolidList] = useState(FAKE_LIST);
+    const products = useGetData("/api/products");
+    const [productsList, setProductsList] = useState(products);
     const [showAddModal, setShowAddModal] = useState(false);
+
+    useEffect(() => {
+        setProductsList(products);
+    }, [products])
 
     const handleOnShowAdd = () => {
         setShowAddModal(!showAddModal);
     }
 
     const handleOnDelete = (ean) => {
-        const products = solidList.filter((p) => p.EAN != ean);
-        if (products.length != solidList.length) {
-            setSolidList(products);
+        const products = productsList.filter((p) => p.EAN != ean);
+        if (products.length != productsList.length) {
+            setProductsList(products);
             toast.success("Exito!", {description:"Producto eliminado correctamente!"});
         }
         else {
@@ -52,18 +32,21 @@ export default function SolidProductsList() {
         }
     }
 
-    const handleOnAdd = (product) => {
-        setSolidList([...solidList, product]);
+    const handleOnAdd = async (product) => {
+        setProductsList([...productsList, product]);
         handleOnShowAdd();
-        toast.success("Exito!",{description:"Producto añadido correctamente!"});
+        const result = await useCreateData("/api/products", product);
+        if (result) {
+            toast.success("Exito!",{description:"Producto añadido correctamente!"});
+        }
     }
 
     const handleOnSearch = (busqueda) => {
-        setSolidList(solidList.filter((p) => p.EAN == busqueda));
+        setProductsList(productsList.filter((p) => p.EAN == busqueda));
     }
 
     const handleOnCancelSearch = () => {
-        setSolidList(FAKE_LIST);
+        setProductsList(products);
     }
 
     const handleOnEdit = (ean) => {
@@ -71,7 +54,7 @@ export default function SolidProductsList() {
     }
 
     return (
-        <div className='solidProductsList'>
+        <div className='productsList'>
             <ProductsTools
                 handleShowAdd={handleOnShowAdd}
                 handleOnDelete={handleOnDelete}
@@ -82,8 +65,8 @@ export default function SolidProductsList() {
             {showAddModal && (
                 <AddForm handleShow={handleOnShowAdd} handleSubmit={handleOnAdd}/>
             )}
-            <h5> Solidos </h5>
-            <TTable list={solidList} maxHeight="54vh" />
+            <h5> Productos </h5>
+            <TTable list={productsList} maxHeight="54vh" />
         </div>
     );
 }

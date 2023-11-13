@@ -5,15 +5,15 @@ class ProductosCrud extends GenericCrud {
         super("Productos");
     }
 
-    async create({ plu, ean, descripcion, area, precio, peso, cantidad }) {
+    async create({ PLU, EAN, Descripcion, Area, Precio, Peso, Cantidad }) {
         return await super.create({
-            PLU: plu,
-            EAN: ean,
-            Descripcion: descripcion,
-            Area: area,
-            Precio: precio,
-            Peso: peso,
-            Cantidad: cantidad,
+            PLU: PLU,
+            EAN: EAN,
+            Descripcion: Descripcion,
+            Area: Area,
+            Precio: Precio,
+            Peso: Peso,
+            Cantidad: Cantidad,
         });
     }
 
@@ -21,20 +21,20 @@ class ProductosCrud extends GenericCrud {
         return await super.read();
     }
 
-    async update(ean, { descripcion, area, precio, peso, cantidad }) {
+    async update(EAN, { Descripcion, Area, Precio, Peso, Cantidad }) {
         const data = {};
         
-        if (descripcion) data.Descripcion = descripcion;
-        if (area) data.Area = area;
-        if (precio) data.Precio = precio;
-        if (peso) data.Peso = peso;
-        if (cantidad) data.Cantidad = cantidad;
+        if (Descripcion) data.Descripcion = Descripcion;
+        if (Area) data.Area = Area;
+        if (Precio) data.Precio = Precio;
+        if (Peso) data.Peso = Peso;
+        if (Cantidad) data.Cantidad = Cantidad;
 
-        return await super.update(data, `EAN = '${ean}'`);
+        return await super.update(data, `EAN = '${EAN}'`);
     }
 
-    async delete(ean) {
-        return await super.delete(`EAN = '${ean}'`);
+    async delete(EAN) {
+        return await super.delete(`EAN = '${EAN}'`);
     }
 }
 

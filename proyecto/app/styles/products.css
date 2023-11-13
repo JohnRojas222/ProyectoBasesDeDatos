@@ -1,29 +1,10 @@
 
 .productsList {
-    height: 75vh;
-    display: grid;
-} 
-
-.productsList .carousel {
-    padding: 0 13em;
-}
-
-.solidProductsList {
-    margin: 2em 0;
+    margin: 2em 2em;
     color: #fff;
     text-align: center;
 }
 
-.solidProductsList h5 {
-    margin: 1em 0;
-}
-
-.liquidProductsList {
-    margin: 2em 0;
-    color: #fff;
-    text-align: center;
-}
-
-.liquidProductsList h5 {
+.productsList h5 {
     margin: 1em 0;
 }

@@ -7,7 +7,7 @@ export default function FacturaForm({ productsToSell, handleSubmit }) {
     const currentUser = useGetCurrentUser();
 
     const getTotalPrice = () => {
-        return productsToSell.reduce((acc, p) => acc + p.precio * p.cantidad, 0);
+        return productsToSell.reduce((acc, p) => acc + p.PRECIO * p.CANTIDAD, 0);
     }
 
     return (
@@ -44,8 +44,8 @@ export default function FacturaForm({ productsToSell, handleSubmit }) {
                 <h5> Productos: </h5>
                 {productsToSell.map((p, index) => (
                     <>
-                        {index + 1}. Producto: {p.descripcion}. Precio: ₡{p.precio}.
-                        Cantidad: {p.cantidad}. SubTotal: ₡{p.precioTotal}. <br />
+                        {index + 1}. Producto: {p.DESCRIPCION}. Precio: ₡{p.PRECIO}.
+                        Cantidad: {p.CANTIDAD}. SubTotal: ₡{p.precioTotal}. <br />
                     </>
                 ))}
                 Total: ₡{getTotalPrice()}.

@@ -18,8 +18,6 @@ export default function TNav({ }) {
         router.push("/");
     }
 
-    console.log(currentUser)
-
     return (
         <Nav className="navBox">
             <Navbar>

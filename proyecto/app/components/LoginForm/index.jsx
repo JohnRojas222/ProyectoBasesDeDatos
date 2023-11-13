@@ -16,7 +16,7 @@ export default function LoginForm({ handleSubmit }) {
         <Form onSubmit={handleOnSubmit} className='loginFormBox'>
             <h5><strong>Iniciar Sesión</strong></h5>
             <FloatingLabel controlId="usuario" label="Usuario">
-                <Form.Control name="id" placeholder='Usuario' />
+                <Form.Control name="codigo" placeholder='Usuario' />
             </FloatingLabel>
             <FloatingLabel controlId="constraseña" label="Contraseña">
                 <Form.Control type="password" name="password" placeholder='Contraseña' />
