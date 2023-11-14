@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import useCreateData from "@/app/hooks/useCreateData";
+import useDeleteData from "@/app/hooks/useDeleteData";
 
 export default function ProductsList() {
     const router = useRouter();
@@ -24,20 +25,27 @@ export default function ProductsList() {
     const handleOnDelete = (ean) => {
         const products = productsList.filter((p) => p.EAN != ean);
         if (products.length != productsList.length) {
-            setProductsList(products);
-            toast.success("Exito!", {description:"Producto eliminado correctamente!"});
+            const result = useDeleteData("/api/products", { EAN: ean });
+            if (result) {
+                setProductsList(products);
+                toast.success("Exito!", { description: "Producto eliminado correctamente!" });
+            }
         }
         else {
-            toast.error("Error!", {description:"Producto no encontrado!"});
+            toast.error("Error!", { description: "Producto no encontrado!" });
         }
     }
 
     const handleOnAdd = async (product) => {
-        setProductsList([...productsList, product]);
-        handleOnShowAdd();
+        console.log(product)
         const result = await useCreateData("/api/products", product);
         if (result) {
-            toast.success("Exito!",{description:"Producto añadido correctamente!"});
+            setProductsList([...productsList, product]);
+            handleOnShowAdd();
+            toast.success("Exito!", { description: "Producto añadido correctamente!" });
+        }
+        else {
+            toast.error("Error!", { description: "Producto no añadido correctamente!" });
         }
     }
 
@@ -63,7 +71,7 @@ export default function ProductsList() {
                 handleOnEdit={handleOnEdit}
             />
             {showAddModal && (
-                <AddForm handleShow={handleOnShowAdd} handleSubmit={handleOnAdd}/>
+                <AddForm handleShow={handleOnShowAdd} handleSubmit={handleOnAdd} />
             )}
             <h5> Productos </h5>
             <TTable list={productsList} maxHeight="54vh" />

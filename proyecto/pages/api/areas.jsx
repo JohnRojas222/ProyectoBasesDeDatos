@@ -2,7 +2,6 @@ import AreaCrud from "@/app/services/AreaCrud";
 
 export default async function areas (req, res) {
     try {
-        console.log(req.method)
         const crud = new AreaCrud();
         if (req.method == "GET") {
             const result = await crud.read().then((data) => data);

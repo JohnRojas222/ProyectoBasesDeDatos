@@ -2,9 +2,9 @@ import TNav from "../TNav";
 import Login from "../Login";
 import "../../styles/global.css";
 import 'bootstrap/dist/css/bootstrap.min.css';
-//import CajeroCrud from "@/app/services/CajeroCrud";
+import ProductosCrud from "@/app/services/ProductosCrud";
 
-//const crud = new CajeroCrud();
+const crud = new ProductosCrud();
 export default function HomePage() {
     
     
@@ -23,11 +23,11 @@ export default function HomePage() {
     //     caja: 5,
     // });
 
+    // crud.delete('111');
+
     // crud.read().then(elementos => {
     //     console.log(elementos);
     // });
-
-    // productosCrud.delete('1234567890123');
 
     return (
         <>

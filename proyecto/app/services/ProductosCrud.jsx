@@ -7,13 +7,13 @@ class ProductosCrud extends GenericCrud {
 
     async create({ PLU, EAN, Descripcion, Area, Precio, Peso, Cantidad }) {
         return await super.create({
-            PLU: PLU,
+            PLU: PLU ? PLU : "NULL",
             EAN: EAN,
             Descripcion: Descripcion,
             Area: Area,
             Precio: Precio,
             Peso: Peso,
-            Cantidad: Cantidad,
+            Cantidad: Cantidad ? Cantidad : "NULL",
         });
     }
 

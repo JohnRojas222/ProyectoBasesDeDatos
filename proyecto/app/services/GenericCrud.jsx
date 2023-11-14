@@ -12,7 +12,7 @@ class GenericCrud {
                 user: process.env.DB_USER,
                 password: process.env.DB_PASSWORD,
                 connectionString: process.env.DB_CONNECTION_STRING,
-                privilege: oracledb[process.env.DB_ROLE] // Se utiliza para especificar el rol SYSDBA
+                privilege: oracledb[process.env.DB_ROLE]
             });
         } catch (err) {
             console.error("Error de conexión:", err);
@@ -23,10 +23,12 @@ class GenericCrud {
     async create(data) {
         const connection = await this.openConnection();
         try {
+            console.log(data);
             const columns = Object.keys(data).join(', ');
-            const values = Object.values(data).map(value => `'${value}'`).join(', ');
+            const values = Object.values(data).map(value => `${value != "NULL" ? `'${value}'` : `${value}` }`).join(', ');
 
             const sql = `INSERT INTO ${this.tableName} (${columns}) VALUES (${values})`;
+            console.log(sql);
             const result = await connection.execute(sql);
             await connection.commit();
 
@@ -42,10 +44,7 @@ class GenericCrud {
             const sql = `SELECT * FROM ${this.tableName} ${whereClause}`;
             const result = await connection.execute(sql);
     
-            // Obtener las columnas del resultado
             const columns = result.metaData.map(column => column.name);
-    
-            // Construir un array de objetos JSON a partir de las filas
             const rows = result.rows.map(row => {
                 const rowData = {};
                 row.forEach((value, index) => {
@@ -65,8 +64,6 @@ class GenericCrud {
         const connection = await this.openConnection();
         try {
             const updates = objectToString(data);
-            //const updates = Object.keys(data).map(key => `${key} = ?`).join(', ');
-            //const values = Object.values(data);
 
             const sql = `UPDATE ${this.tableName} SET ${updates} WHERE ${whereClause}`;
             const result = await connection.execute(sql);
