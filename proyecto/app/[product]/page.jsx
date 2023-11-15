@@ -12,6 +12,7 @@ import "../styles/editForm.css";
 
 export default function Page({ params }) {
     const products = useGetData("/api/products");
+    const areas = useGetData("/api/areas");
     const currentUser = useGetCurrentUser();
 
     const handleOnSubmit = async (e) => {
@@ -19,7 +20,7 @@ export default function Page({ params }) {
             const formData = getFormData(e);
             const data = await useUpdateData("/api/products", formData);
             if (data) {
-                toast.success("Exito!", {description:"Producto Editado Correctamente!"})
+                toast.success("Exito!", { description: "Producto Editado Correctamente!" })
             }
         }
     }
@@ -32,18 +33,22 @@ export default function Page({ params }) {
                     <TNav />
                     <Form className="editFormBox" onSubmit={handleOnSubmit}>
                         <h5>{currentProduct.DESCRIPCION} ({currentProduct.EAN})</h5>
-                        <FloatingLabel label="PLU" className="mb-3">
-                            <Form.Control name="PLU" defaultValue={currentProduct.PLU} disabled readOnly />
-                        </FloatingLabel>
+                        {currentProduct.AREA == "A004" && (
+                            <FloatingLabel label="PLU" className="mb-3">
+                                <Form.Control name="PLU" defaultValue={currentProduct.PLU} disabled readOnly />
+                            </FloatingLabel>
+                        )}
                         <FloatingLabel label="EAN" className="mb-3">
                             <Form.Control name="EAN" defaultValue={currentProduct.EAN} disabled readOnly />
                         </FloatingLabel>
                         <FloatingLabel label="Descripción" className="mb-3">
                             <Form.Control name="Descripcion" defaultValue={currentProduct.DESCRIPCION} />
                         </FloatingLabel>
-                        <FloatingLabel label="Cantidad" className="mb-3">
-                            <Form.Control name="Cantidad" defaultValue={currentProduct.CANTIDAD} />
-                        </FloatingLabel>
+                        {currentProduct.AREA != "A004" && (
+                            <FloatingLabel label="Cantidad" className="mb-3">
+                                <Form.Control name="Cantidad" defaultValue={currentProduct.CANTIDAD} />
+                            </FloatingLabel>
+                        )}
                         <Button variant="secondary" onClick={() => window.history.back()}> Volver </Button>
                         <Button className="ms-3" type="submit"> Editar </Button>
                     </Form>
@@ -62,27 +67,33 @@ export default function Page({ params }) {
                     <TNav />
                     <Form className="editFormBox" onSubmit={handleOnSubmit}>
                         <h5>{currentProduct.DESCRIPCION} ({currentProduct.EAN})</h5>
-                        <FloatingLabel label="PLU" className="mb-3">
-                            <Form.Control name="PLU" defaultValue={currentProduct.PLU} />
-                        </FloatingLabel>
+                        {currentProduct.AREA == "A004" && (
+                            <FloatingLabel label="PLU" className="mb-3">
+                                <Form.Control name="PLU" defaultValue={currentProduct.PLU} disabled readOnly />
+                            </FloatingLabel>
+                        )}
                         <FloatingLabel label="EAN" className="mb-3">
-                            <Form.Control name="EAN" defaultValue={currentProduct.EAN} />
+                            <Form.Control name="EAN" defaultValue={currentProduct.EAN} disabled readOnly />
                         </FloatingLabel>
                         <FloatingLabel label="Descripción" className="mb-3">
                             <Form.Control name="Descripcion" defaultValue={currentProduct.DESCRIPCION} />
                         </FloatingLabel>
-                        <FloatingLabel label="Área" className="mb-3">
-                            <Form.Control name="Área" defaultValue={currentProduct.AREA} />
-                        </FloatingLabel>
+                        <Form.Select className="mb-3" name="Area" defaultValue={currentProduct.AREA}>
+                            {areas && areas.map((area, index) => (
+                                <option key={index} value={area.CODIGO}>{area.DESCRIPCION}</option>
+                            ))}
+                        </Form.Select>
                         <FloatingLabel label="Peso" className="mb-3">
                             <Form.Control name="Peso" defaultValue={currentProduct.PESO} />
                         </FloatingLabel>
                         <FloatingLabel label="Precio" className="mb-3">
                             <Form.Control name="Precio" defaultValue={currentProduct.PRECIO} />
                         </FloatingLabel>
-                        <FloatingLabel label="Cantidad" className="mb-3">
-                            <Form.Control name="Cantidad" defaultValue={currentProduct.CANTIDAD} />
-                        </FloatingLabel>
+                        {currentProduct.AREA != "A004" && (
+                            <FloatingLabel label="Cantidad" className="mb-3">
+                                <Form.Control name="Cantidad" defaultValue={currentProduct.CANTIDAD} />
+                            </FloatingLabel>
+                        )}
                         <Button variant="secondary" onClick={() => window.history.back()}> Volver </Button>
                         <Button className="ms-3" type="submit"> Editar </Button>
                     </Form>

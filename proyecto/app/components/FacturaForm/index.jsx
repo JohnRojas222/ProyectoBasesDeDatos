@@ -15,13 +15,13 @@ export default function FacturaForm({ productsToSell, handleSubmit }) {
             <Form.Group as={Row} className="mb-3">
                 <Form.Label column sm="2"> Fecha </Form.Label>
                 <Col sm="10">
-                    <Form.Control value={currentDate()} readOnly disabled className="mb-3" />
+                    <Form.Control name="Fecha" value={currentDate()} readOnly disabled className="mb-3" />
                 </Col>
             </Form.Group>
             <Form.Group as={Row} className="mb-3">
                 <Form.Label column sm="2"> Hora </Form.Label>
                 <Col sm="10">
-                    <Form.Control value={currentHour()} readOnly disabled className="mb-3" />
+                    <Form.Control name="Hora" value={currentHour()} readOnly disabled className="mb-3" />
                 </Col>
             </Form.Group>
             {currentUser && (
@@ -29,13 +29,13 @@ export default function FacturaForm({ productsToSell, handleSubmit }) {
                     <Form.Group as={Row} className="mb-3">
                         <Form.Label column sm="2"> Cajero </Form.Label>
                         <Col sm="10">
-                            <Form.Control value={currentUser.id} readOnly disabled className="mb-3" />
+                            <Form.Control name="Usuario" value={currentUser.CODIGO} readOnly disabled className="mb-3" />
                         </Col>
                     </Form.Group>
                     <Form.Group as={Row} className="mb-3">
                         <Form.Label column sm="2"> Caja </Form.Label>
                         <Col sm="10">
-                            <Form.Control value={currentUser.caja} readOnly disabled className="mb-3" />
+                            <Form.Control name="Cajero" value={currentUser.CAJA} readOnly disabled className="mb-3" />
                         </Col>
                     </Form.Group>
                 </>

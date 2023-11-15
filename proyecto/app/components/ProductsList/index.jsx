@@ -22,13 +22,16 @@ export default function ProductsList() {
         setShowAddModal(!showAddModal);
     }
 
-    const handleOnDelete = (ean) => {
+    const handleOnDelete = async (ean) => {
         const products = productsList.filter((p) => p.EAN != ean);
         if (products.length != productsList.length) {
-            const result = useDeleteData("/api/products", { EAN: ean });
-            if (result) {
+            const result = await useDeleteData("/api/products", { EAN: ean });
+            if (result.rowsAffected != 0) {
                 setProductsList(products);
                 toast.success("Exito!", { description: "Producto eliminado correctamente!" });
+            }
+            else {
+                toast.error("Error!", { description: "Ningún producto fue eliminado!" });
             }
         }
         else {
@@ -37,10 +40,10 @@ export default function ProductsList() {
     }
 
     const handleOnAdd = async (product) => {
-        console.log(product)
         const result = await useCreateData("/api/products", product);
         if (result) {
-            setProductsList([...productsList, product]);
+            const formatedProduct = getFormatedProduct(product);
+            setProductsList([...productsList, formatedProduct]);
             handleOnShowAdd();
             toast.success("Exito!", { description: "Producto añadido correctamente!" });
         }
@@ -59,6 +62,18 @@ export default function ProductsList() {
 
     const handleOnEdit = (ean) => {
         router.push("/" + ean);
+    }
+
+    const getFormatedProduct = (product) => {
+        return {
+            PLU: product.PLU,
+            EAN: product.EAN,
+            DESCRIPCION: product.Descripcion,
+            AREA: product.Area,
+            PESO: product.Peso,
+            PRECIO: product.Precio,
+            CANTIDAD: product.Cantidad,
+        }
     }
 
     return (

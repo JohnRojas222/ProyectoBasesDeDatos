@@ -34,7 +34,7 @@ class ProductosCrud extends GenericCrud {
     }
 
     async delete(EAN) {
-        return await super.delete(`EAN = '${EAN}'`);
+        return await super.delete(`EAN = '${EAN.EAN}'`);
     }
 }
 

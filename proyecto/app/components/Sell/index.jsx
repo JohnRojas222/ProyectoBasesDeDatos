@@ -9,6 +9,8 @@ import TTable from "../TTable";
 import TModal from "../TModal";
 import FacturaForm from "../FacturaForm";
 import "../../styles/sell.css";
+import { getFormData } from "@/app/functions/getFormData";
+import useCreateData from "@/app/hooks/useCreateData";
 
 const WEIGHT_FORMAT = {
     A001: "gr",
@@ -32,9 +34,22 @@ export default function Sell() {
 
     const handleOnSubmit = (e) => {
         if (checkFields(e)) {
-            handleOnShow();
-            setFormatedList([]);
+            const billData = getFormData(e);
+            productsToSell.map(async (product) => {
+                const newBill = {
+                    Producto: product.EAN,
+                    Cantidad: product.cantidad,
+                    SubTotal: product.PRECIO,
+                    Total: product.precioTotal,
+                    Cajero: billData.Usuario,
+                    Fecha: billData.Fecha,
+                    Hora: billData.Hora,
+                }
+                const result = await useCreateData("/api/bills", newBill);
+            })
             setProductsToSell([]);
+            setFormatedList([]);
+            handleOnShow();
             toast.success("Exito!", {description: "Productos vendidos correctamente!"});
         }
     }
@@ -50,7 +65,6 @@ export default function Sell() {
 
     const handleOnAddProduct = (product) => {
         const newProduct = products.find((p) => p.EAN == product.EAN);
-        console.log(newProduct)
         if (newProduct) {
             const checkIfItIs = productsToSell.some((p) => p.EAN == product.EAN);
             if (getAmount(newProduct.EAN) < product.cantidad) {

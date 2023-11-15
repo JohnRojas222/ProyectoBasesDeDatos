@@ -6,7 +6,7 @@ import { toast } from "sonner";
 
 export default function SellForm({ list = [], handleSubmit, handleSellProducts }) {
     const [searchValue, setSearchValue] = useState("");
-    const [currentProduct, setCurrentProduct] = useState("ninguno");
+    const [currentProduct, setCurrentProduct] = useState();
 
     const handleOnSubmit = (e) => {
         if (checkFields(e)) {
@@ -55,8 +55,12 @@ export default function SellForm({ list = [], handleSubmit, handleSellProducts }
                     <Button onClick={handleOnSearch}> Buscar </Button>
                 </InputGroup>
                 <Form.Text className="text-white">
-                    Nombre: {currentProduct.DESCRIPCION}. Precio: ₡{currentProduct.PRECIO}. <br />
-                    Cantidad Disponible: {currentProduct.CANTIDAD}
+                    {currentProduct && (
+                        <>
+                            Nombre: {currentProduct.DESCRIPCION}. Precio: ₡{currentProduct.PRECIO}. <br />
+                            {currentProduct.AREA != "A004" ? "Cantidad Disponible: " + currentProduct.CANTIDAD : ""}
+                        </>
+                    )}
                 </Form.Text>
             </Form.Group>
             <Form.Group className="mb-3 text-white">

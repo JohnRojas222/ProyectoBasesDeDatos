@@ -4,13 +4,18 @@ import { checkFields } from "@/app/functions/checkFields";
 import { getFormData } from "@/app/functions/getFormData";
 import useGetData from "@/app/hooks/useGetData";
 import { useState } from "react";
+import { toast } from "sonner";
 
 export default function AddForm({ type, handleShow, handleSubmit }) {
     const areas = useGetData("/api/areas");
-    const [areaSelected, setAreaSelected] = useState();
+    const [areaSelected, setAreaSelected] = useState(-1);
 
     const handleOnSubmit = (e) => {
-        if (checkFields(e)) {
+        if (areaSelected && areaSelected == -1) {
+            e.preventDefault();
+            toast.error("Error!", {description:"Área del producto no seleccionada!"});
+        }
+        else if (checkFields(e)) {
             handleSubmit(getFormData(e));
         }
     }
@@ -18,11 +23,12 @@ export default function AddForm({ type, handleShow, handleSubmit }) {
     return (
         <TModal handleShow={handleShow} modalTitle="Añadir Producto" handleSubmit={handleOnSubmit}>
             <Form.Select className="mb-3" name="Area" onChange={(e) => setAreaSelected(e.target.value)}>
+                <option value={-1}> Seleccionar Área </option>
                 {areas && areas.map((area, index) => (
                     <option key={index} value={area.CODIGO}>{area.DESCRIPCION}</option>
                 ))}
             </Form.Select>
-            {areaSelected && (
+            {areaSelected != -1 && (
                 <>
                     {areaSelected == "A004" && (
                         <FloatingLabel label="PLU">
