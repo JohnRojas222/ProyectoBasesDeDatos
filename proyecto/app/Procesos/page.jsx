@@ -2,10 +2,12 @@
 import TNav from '../components/TNav';
 import { Toaster, toast } from 'sonner';
 import { Button, Tab, Tabs } from 'react-bootstrap';
+import React, { useEffect, useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../styles/global.css';
 import '../styles/processes.css';
 import TTable from '../components/TTable';
+import useGetData from "@/app/hooks/useGetData";
 
 const FAKE_LIQUID_LIST = [
     {
@@ -137,7 +139,20 @@ const FAKE_LIQUID_LIST = [
 ]
 
 export default function Page() {
+    const bitacoras = useGetData("/api/bitacoras");
+    const [bitacoraList, setBitacoraList] = useState(bitacoras);
+    const [facturas, setFacturas] = useState([]);
+    const [movimientos, setMovimientos] = useState([]);
+    
+    useEffect(() => {
+        setBitacoraList(bitacoras);
+        if (Array.isArray(bitacoraList)) {
+            setFacturas(bitacoraList.filter(objeto => objeto.TABLA === 'Factura'));
+            setMovimientos(bitacoraList.filter(objeto => objeto.TABLA !== 'Factura'));
+          }
 
+    }, [bitacoras]);
+    console.log(movimientos);
     const onDoBackup = () => {
         toast.success("Exito!", {description:"Respaldo de la base de datos realizado correctamete!!"});
     }
@@ -157,10 +172,10 @@ export default function Page() {
                     <Button onClick={onLoadBackup}> Restaurar Base de Datos </Button>
                 </Tab>
                 <Tab title="Bitacoras" eventKey={"bitacoras"} className='tabTables'>
-                    <TTable list={FAKE_LIQUID_LIST} maxHeight="54vh" />
+                    <TTable list={facturas} maxHeight="54vh" />
                 </Tab>
                 <Tab title="Movimientos" eventKey={"movimientos"} className='tabTables'>
-                    <TTable list={FAKE_LIQUID_LIST} maxHeight="54vh" />
+                    <TTable list={movimientos} maxHeight="54vh" />
                 </Tab>
             </Tabs>
             <Toaster richColors closeButton/>
