@@ -12,10 +12,14 @@ export default function TNav({ }) {
     const currentUser = useGetCurrentUser();
     const [showDropDown, setShowDropDown] = useState(true);
 
-    const handleCloseSession = () => {
-        localStorage.clear();
-        setShowDropDown(false);
-        router.push("/");
+    const handleCloseSession = async() => {
+        try{
+            const response = await fetch(`/api/logout`);
+            localStorage.clear();
+            setShowDropDown(false);
+            router.push("/");
+        }catch(err){}
+
     }
 
     return (

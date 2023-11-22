@@ -15,8 +15,14 @@ class UsuariosCrud extends GenericCrud {
         });
     }
 
-    async read() {
-        return await super.read();
+    async read(codigo, password) {
+        const data = await super.read(`where CODIGO = '${codigo}'`);
+        console.log(data);
+        const role = await super.userRole(`WHERE GRANTEE = '${data[0].CODIGO}'`)
+        console.log("AAAAAAAAAAA", role);
+        super.chageConection(codigo, password)
+        console.log("AAAAAAAAAAA", role);
+        return data;
     }
 
     async update(codigo, { nombre, password, area, rol }) {

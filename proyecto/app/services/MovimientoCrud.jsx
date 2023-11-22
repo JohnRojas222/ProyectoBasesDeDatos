@@ -1,7 +1,7 @@
 import GenericCrud from './GenericCrud';
-class BitacoraCrud extends GenericCrud {
+class MovimientoCrud extends GenericCrud {
     constructor() {
-        super("BitacoraVentas");
+        super("bitacora");
     }
 
     async read() {
@@ -9,4 +9,4 @@ class BitacoraCrud extends GenericCrud {
     }
 }
 
-export default BitacoraCrud;
+export default MovimientoCrud;
