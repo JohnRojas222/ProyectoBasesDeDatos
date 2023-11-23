@@ -5,7 +5,9 @@ class BitacoraCrud extends GenericCrud {
     }
 
     async read() {
-        return await super.read();
+        const result = await super.read();
+        console.log(result);
+        return result;
     }
 }
 

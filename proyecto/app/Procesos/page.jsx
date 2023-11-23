@@ -21,7 +21,7 @@ export default function Page() {
         setMovimientos(movimiento);
 
     }, [bitacoras, movimiento]);
-    console.log(movimientos);
+    console.log(facturas);
     const onDoBackup = () => {
         toast.success("Exito!", {description:"Respaldo de la base de datos realizado correctamete!!"});
     }

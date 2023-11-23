@@ -111,40 +111,57 @@ CREATE USER USR007 IDENTIFIED BY 777;
 GRANT CONNECT TO USR007;
 GRANT Sistemas to USR007;
 
-
-
 CREATE OR REPLACE TRIGGER trg_bitacora
-AFTER INSERT ON admin.Productos
+AFTER INSERT OR UPDATE OR DELETE ON admin.Productos 
+FOR EACH ROW
+DECLARE
+  v_codigo_bitacora VARCHAR2(50);
+  accion VARCHAR2(50);
+BEGIN
+  -- Generar un código único para la bitácora (puedes ajustar esto según tus necesidades)
+  v_codigo_bitacora := TO_CHAR(SYSDATE, 'YYYYMMDDHH24MISS');
+  
+  -- Determinar la acción realizada (INSERT, UPDATE, DELETE)
+  CASE
+    WHEN UPDATING THEN accion := 'UPDATE';
+    WHEN DELETING THEN accion := 'DELETE';
+    ELSE accion := 'INSERT';
+  END CASE;
+  
+  -- Insertar en la tabla de bitácora
+  INSERT INTO admin.bitacora (Codigo, OperacionRealizada, Usuario, Fecha, Hora, Tabla)
+  VALUES (v_codigo_bitacora, accion, USER, TO_CHAR(SYSDATE, 'YYYY-MM-DD'), TO_CHAR(SYSDATE, 'HH24:MI'), 'productos');
+END;
+/
+
+CREATE OR REPLACE TRIGGER trg_bitacora_ventas
+AFTER INSERT ON admin.Factura
 FOR EACH ROW
 DECLARE
   v_codigo_bitacora VARCHAR2(50);
 BEGIN
-  -- Generar un código único para la bitácora (puedes ajustar esto según tus necesidades)
+  -- Generar un código único para la bitácora (ajusta según tus necesidades)
   v_codigo_bitacora := TO_CHAR(SYSDATE, 'YYYYMMDDHH24MISS');
 
-  -- Insertar en la tabla de bitácora
-  INSERT INTO admin.bitacora (Codigo, OperacionRealizada, Usuario, Fecha, Hora, Tabla)
-  VALUES (v_codigo_bitacora, 'INSERT en productos', USER, TO_CHAR(SYSDATE, 'YYYY-MM-DD'), TO_CHAR(SYSDATE, 'HH24:MI'), 'productos');
+  -- Insertar en la tabla de BitacoraVentas
+  INSERT INTO admin.BitacoraVentas (Bitacora, Factura)
+  VALUES (v_codigo_bitacora, :NEW.Codigo);
 END;
 /
+
 
 
 CREATE OR REPLACE TRIGGER ActualizarCantidadProducto
 AFTER INSERT ON admin.Factura
 FOR EACH ROW
-DECLARE
-  v_codigo_bitacora VARCHAR2(50);
-  v_CodigoFactura admin.Factura.Codigo%TYPE;
 BEGIN
-  -- Generar un código único para la bitácora (puedes ajustar esto según tus necesidades)
-  v_codigo_bitacora := TO_CHAR(SYSDATE, 'YYYYMMDDHH24MISS');
-  SELECT Codigo INTO v_CodigoFactura FROM admin.Factura WHERE ROWID = :NEW.ROWID;
   -- Actualizar la cantidad del producto en la tabla Productos
   UPDATE Productos
   SET cantidad = cantidad - :NEW.Cantidad
   WHERE EAN = :NEW.Producto;
-
-  INSERT INTO admin.BitacoraVentas(Bitacora, Factura)
-  values(v_codigo_bitacora, v_CodigoFactura);
 END;
 /
+
+
+INSERT INTO admin.Factura (Codigo, Producto, Cantidad, Subtotal, Total, Cajero, Fecha, Hora)
+VALUES ('7777', '123', 2, 25.98, 30.00, 'USR001', '2023-11-23', '14:30');
